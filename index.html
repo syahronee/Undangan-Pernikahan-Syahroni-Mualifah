@@ -116,7 +116,7 @@ rsvpForm.addEventListener('submit', function(e) {
     alert("Konfirmasi berhasil dikirim!");
     rsvpForm.reset();
   })
-  .catch(() => alert("Gagal menyimpan RSVP."));
+  .catch(() => alert("Gagal mengirim RSVP, anda kurang beribadah."));
 });
 
 const wishForm = document.getElementById('wishForm');
@@ -138,7 +138,7 @@ wishForm.addEventListener('submit', function(e) {
     wishForm.reset();
     loadWishes();
   })
-  .catch(() => alert("Gagal mengirim ucapan."));
+  .catch(() => alert("Gagal mengirim ucapan. Jangan Toxic eyyy!!"));
 });
 
 function loadWishes() {
