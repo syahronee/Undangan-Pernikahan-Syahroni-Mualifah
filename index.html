@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Undangan Pernikahan Syahroni & Mualifah</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      scroll-behavior: smooth;
+    }
+    .bg-hero {
+      background-image: url('https://images.unsplash.com/photo-1526045478516-99145907023c');
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-800">
+
+  <!-- Musik -->
+  <audio id="bgm" src="https://www.bensound.com/bensound-music/bensound-love.mp3" autoplay loop></audio>
+  <button onclick="toggleMusic()" class="fixed top-4 right-4 z-50 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition">
+    🔊
+  </button>
+
+  <!-- Hero Section -->
+  <section class="bg-hero h-screen flex items-center justify-center text-white relative">
+    <div class="bg-black/50 p-10 rounded-lg text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Syahroni & Mualifah</h1>
+      <p class="text-xl mb-6">Kami mengundang Anda ke hari istimewa kami</p>
+      <a href="#rsvp" class="bg-white text-black py-2 px-4 rounded-lg font-semibold hover:bg-gray-200 transition">Konfirmasi Kehadiran</a>
+    </div>
+  </section>
+
+  <!-- Galeri Section -->
+  <section id="galeri" class="py-16 bg-gray-100 px-6 md:px-20">
+    <h2 class="text-3xl font-bold text-center mb-10">Galeri Kami</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <!-- Ganti src di bawah dengan foto kamu -->
+      <img src="ChatGPT Image 2 Mei 2025, 19.10.28.png" class="rounded-lg" />
+      <img src="Ikan Betta Ceria dengan Musik.png" class="rounded-lg" />
+      <img src="Kopi, Musik, dan Buku Berwarna.png" class="rounded-lg" />
+    </div>
+  </section>
+
+  <!-- RSVP Section -->
+  <section id="rsvp" class="bg-white py-16 px-6 md:px-20">
+    <h2 class="text-3xl font-bold text-center mb-10">Konfirmasi Kehadiran</h2>
+    <form id="rsvpForm" class="max-w-xl mx-auto space-y-4">
+      <input id="rsvpName" placeholder="Nama" required class="w-full p-3 border rounded" />
+      <select id="attendance" class="w-full p-3 border rounded">
+        <option value="Hadir">Hadir</option>
+        <option value="Tidak Hadir">Tidak Hadir</option>
+      </select>
+      <input id="guests" type="number" value="1" min="1" class="w-full p-3 border rounded" />
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Kirim</button>
+    </form>
+  </section>
+
+  <!-- Wish Section -->
+  <section id="wish" class="bg-gray-50 py-16 px-6 md:px-20">
+    <h2 class="text-3xl font-bold text-center mb-10">Ucapan & Doa</h2>
+    <form id="wishForm" class="max-w-xl mx-auto mb-10 space-y-4">
+      <input type="text" id="name" placeholder="Nama Anda" class="w-full p-3 border rounded" required />
+      <textarea id="message" rows="4" placeholder="Tulis ucapan Anda..." class="w-full p-3 border rounded" required></textarea>
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Kirim Ucapan</button>
+    </form>
+    <div id="wishList" class="max-w-2xl mx-auto space-y-4">
+      <!-- Ucapan akan dimuat otomatis -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 text-center py-6">
+    <p>© 2025 Syahroni & Mualifah. Dibuat dengan ❤️</p>
+  </footer>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbwWCoX3g0DKI-V3-M6xXMWLBxJj6K071bV5RkO0_t-DIu5UdHd57mGRiU7bqM8MerFrfg/exec";
+
+const rsvpForm = document.getElementById('rsvpForm');
+rsvpForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const data = {
+    type: "rsvp",
+    name: document.getElementById('rsvpName').value.trim(),
+    status: document.getElementById('attendance').value,
+    guests: document.getElementById('guests').value
+  };
+  fetch(scriptURL, {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.text())
+  .then(() => {
+    alert("Konfirmasi berhasil dikirim!");
+    rsvpForm.reset();
+  })
+  .catch(() => alert("Gagal menyimpan RSVP."));
+});
+
+const wishForm = document.getElementById('wishForm');
+wishForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const data = {
+    type: "wish",
+    name: document.getElementById('name').value.trim(),
+    message: document.getElementById('message').value.trim()
+  };
+  fetch(scriptURL, {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.text())
+  .then(() => {
+    alert("Ucapan berhasil dikirim!");
+    wishForm.reset();
+    loadWishes();
+  })
+  .catch(() => alert("Gagal mengirim ucapan."));
+});
+
+function loadWishes() {
+  fetch("https://opensheet.elk.sh/1bAZQETh5UfaZ-Dk5gEo1jlUXNBjt-7bqu0JUCvY4RsQ/WISH")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('wishList');
+      container.innerHTML = "";
+      data.reverse().forEach(item => {
+        const card = document.createElement('div');
+        card.className = "bg-white p-4 rounded shadow";
+        card.innerHTML = `<strong>${item.Nama}</strong><p class='mt-2'>${item.Ucapan}</p>`;
+        container.appendChild(card);
+      });
+    });
+}
+window.addEventListener('DOMContentLoaded', loadWishes);
+
+function toggleMusic() {
+  const music = document.getElementById('bgm');
+  if (music.paused) {
+    music.play();
+  } else {
+    music.pause();
+  }
+}
+</script>
+</body>
+</html>
