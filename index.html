@@ -43,10 +43,15 @@
       <img src="Kopi, Musik, dan Buku Berwarna.png" class="rounded-lg" />
     </div>
   </section>
+  
 
   <!-- RSVP Section -->
   <section id="rsvp" class="bg-white py-16 px-6 md:px-20">
     <h2 class="text-3xl font-bold text-center mb-10">Konfirmasi Kehadiran</h2>
+      <div class="text-center mb-6">
+        <h3 class="text-xl font-semibold mb-2">Menuju Hari Bahagia</h3>
+        <div id="countdown" class="text-2xl font-bold"></div>
+      </div>
     <form id="rsvpForm" class="max-w-xl mx-auto space-y-4">
       <input id="rsvpName" placeholder="Nama" required class="w-full p-3 border rounded" />
       <select id="attendance" class="w-full p-3 border rounded">
@@ -71,6 +76,17 @@
     </div>
   </section>
 
+<section class="py-16 bg-white px-6 md:px-20">
+  <h2 class="text-3xl font-bold text-center mb-10">Lokasi Acara</h2>
+  <div class="max-w-2xl mx-auto rounded overflow-hidden shadow-lg">
+    <iframe class="w-full h-96 border-0"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1983.9718334273823!2d106.82720711604637!3d-6.17539436216544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3eec14fb4c3%3A0x74c260edc8e6f4c9!2sMonas!5e0!3m2!1sen!2sid!4v1610000000000"
+      allowfullscreen="" loading="lazy">
+    </iframe>
+  </div>
+</section>
+
+  
   <!-- Footer -->
   <footer class="bg-gray-100 text-center py-6">
     <p>© 2025 Syahroni & Mualifah. Dibuat dengan ❤️</p>
@@ -147,6 +163,30 @@ function toggleMusic() {
     music.pause();
   }
 }
+
+
+function updateCountdown() {
+  const target = new Date("2025-07-20T10:00:00"); // ganti tanggal acara
+  const now = new Date();
+  const diff = target - now;
+
+  if (diff <= 0) {
+    document.getElementById("countdown").textContent = "Hari ini!";
+    return;
+  }
+
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("countdown").textContent =
+    `${d} hari ${h} jam ${m} menit ${s} detik`;
+
+  setTimeout(updateCountdown, 1000);
+}
+updateCountdown();
+  
 </script>
 </body>
 </html>
